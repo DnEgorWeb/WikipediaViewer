@@ -1,17 +1,17 @@
 body {
-    background-color: #008500;
+    background-color: #F6F6F6;
     padding-top: 10%;
 }
 
 .search-article {
-    color: #00FFC0;
+    color: black;
     font-size: 22px;
     text-align: center;
 }
 
 .search-article a {
     text-decoration: none;
-    color: #00FFC0;
+    color: black;
 }
 
 .search-article p {
@@ -29,9 +29,10 @@ body {
     width: 200px;
     border-radius: 10px;
     border: 0;
-    background-color: #02BF8F;
-    color: #00FFC0;
+    background-color: white;
+    color: black;
     font-size: 16px;
+    text-align: center;
 }
 
 .search-input.visible{
@@ -48,4 +49,21 @@ body {
 
 .search-icon.hidden {
     display: none;
+}
+
+.articles-list ul {
+    list-style: none;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.articles-list ul a {
+    text-decoration: none;
+    color: black;
+}
+
+.articles-list ul li {
+    background-color: white;
+    padding: 10px 20px;
+    margin-bottom: 10px;
 }

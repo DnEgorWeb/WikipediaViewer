@@ -20,30 +20,53 @@ export default class Handlers {
     }
 
     _inputFieldHandler(event) {
+        let self = this;
         if (event.keyCode != 13) return;
 
         let text = this._inputField.value;
 
-        this._sendRequest(text);
-    }
+        this._sendRequest(text)
+            .then(result => {
+                document.querySelector('.articles-list').innerHTML = '<ul></ul>';;
+                const ul = document.querySelector('.articles-list>ul');
 
-    _sendRequest(text) {
-        // let promise = fetch('https://en.wikipedia.org/w/api.php?format=json&action=query&generator=search&gsrnamespace=0&gsrlimit=10&prop=pageimages|extracts&pilimit=max&exintro&explaintext&exsentences=1&exlimit=max&gsrsearch=' + text + 'r&callback=angular.callbacks._2k')
-        //     .then(response => {
-        //         console.log(response.json());
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     })
-        let promise = fetch("https://en.wikipedia.org/w/api.php?action=opensearch&search=" + text + "&format=json&callback=?")
-            .then(response => {
-                return response.text();
-            })
-            .then(data => {
-                console.log(data);
+                for (let item in result) {
+                    let a = document.createElement('a');
+                    ul.append(a);
+                    a.href = 'https://en.wikipedia.org/?curid=' + result[item].pageid;
+                    a.target = '_blank';
+
+                    let li = document.createElement('li');
+                    a.append(li);
+                    let h1 = document.createElement('h1');
+                    li.append(h1);
+                    h1.innerHTML = result[item].title;
+                    let p = document.createElement('p');
+                    li.append(p);
+                    p.innerHTML = result[item].extract;
+                }
+                // result.map(item => {
+                //     let  a = document.createElement('a');
+                //     console.log(item);
+                //     a.href = item.
+                //     ul.append();
+                // });
             })
             .catch(error => {
                 console.log(error);
+            });
+    }
+
+    _sendRequest(text) {
+        return fetch("https://en.wikipedia.org/w/api.php?action=query&format=json&generator=search&gsrnamespace=0&prop=pageimages|extracts&pilimit=max&exintro&explaintext&exsentences=1&exlimit=max&origin=*&gsrsearch=" + text)
+            .then(response => {
+                return response.json();
             })
+            .then(data => {
+                return data.query.pages;
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 }
